@@ -42,7 +42,7 @@ note: Simple authentication sequence
 - **Icons**: `{fas-star}`, `{fab-github}`
 - **Formatting**: **bold**, *italic*, `code`
 
-For complete syntax documentation, visit **[swimlanes.io](https://swimlanes.io/gallery)**.
+For complete syntax documentation, visit **[swimlanes.io](https://swimlanes.io/gallery/full-syntax)**.
 
 ## Commands
 
