@@ -3,6 +3,7 @@
   "displayName": "Swimlanes",
   "description": "A VS Code extension for creating and managing swimlane diagrams",
   "version": "0.0.1",
+  "publisher": "cedricduriau",
   "icon": "images/icon-128.png",
   "engines": {
     "vscode": "^1.102.0"
