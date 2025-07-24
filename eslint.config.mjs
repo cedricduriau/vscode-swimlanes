@@ -3,6 +3,13 @@ import tsParser from "@typescript-eslint/parser";
 
 export default [{
     files: ["**/*.ts"],
+    ignores: [
+        "**/*.js",
+        "**/*.js.map",
+        "**/dist/**",
+        "**/out/**",
+        "**/node_modules/**"
+    ],
 }, {
     plugins: {
         "@typescript-eslint": typescriptEslint,
