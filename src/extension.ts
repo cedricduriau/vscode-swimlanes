@@ -175,6 +175,12 @@ class SwimlanesPreviewPanel {
 			}
 		);
 
+		// Set the panel icon
+		panel.iconPath = {
+			light: vscode.Uri.joinPath(extensionUri, 'images', 'icon-24.png'),
+			dark: vscode.Uri.joinPath(extensionUri, 'images', 'icon-24.png')
+		};
+
 		debugLog('Panel created, initializing SwimlanesPreviewPanel');
 		SwimlanesPreviewPanel.currentPanel = new SwimlanesPreviewPanel(panel, extensionUri, currentContent);
 		debugLog('SwimlanesPreviewPanel initialized');

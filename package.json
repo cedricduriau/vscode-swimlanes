@@ -3,6 +3,7 @@
   "displayName": "Swimlanes",
   "description": "A VS Code extension for creating and managing swimlane diagrams",
   "version": "0.0.1",
+  "icon": "images/icon-128.png",
   "engines": {
     "vscode": "^1.102.0"
   },
@@ -27,7 +28,10 @@
         "command": "swimlanes.preview",
         "title": "Preview Swimlanes Diagram",
         "category": "Swimlanes",
-        "icon": "$(open-preview)"
+        "icon": {
+          "light": "images/icon-24.png",
+          "dark": "images/icon-24.png"
+        }
       }
     ],
     "menus": {
@@ -53,7 +57,11 @@
         "id": "swimlanes",
         "aliases": ["Swimlanes", "swimlanes"],
         "extensions": [".swimlanes"],
-        "configuration": "./language-configuration.json"
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/icon-16.png",
+          "dark": "./images/icon-16.png"
+        }
       }
     ],
     "grammars": [

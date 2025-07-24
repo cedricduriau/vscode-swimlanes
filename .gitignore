@@ -9,6 +9,9 @@ lib/
 !esbuild.js
 !eslint.config.mjs
 
+# Images - keep icons
+!images/
+
 # Node.js dependencies
 node_modules/
 npm-debug.log*
