@@ -1,0 +1,119 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Swimlanes",
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#title"
+        },
+        {
+            "include": "#dividers"
+        },
+        {
+            "include": "#keywords"
+        },
+        {
+            "include": "#messages"
+        },
+        {
+            "include": "#notes"
+        },
+        {
+            "include": "#icons"
+        },
+        {
+            "include": "#strings"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.swimlanes",
+                    "begin": "//",
+                    "end": "$"
+                }
+            ]
+        },
+        "title": {
+            "patterns": [
+                {
+                    "name": "keyword.control.title.swimlanes",
+                    "match": "^title:"
+                }
+            ]
+        },
+        "dividers": {
+            "patterns": [
+                {
+                    "name": "markup.heading.divider.swimlanes",
+                    "match": "^(_|-)+(:|$)"
+                },
+                {
+                    "name": "markup.heading.divider.bold.swimlanes",
+                    "match": "^=+:"
+                }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.swimlanes",
+                    "match": "\\b(if|else|end|group|note|order|autonumber)\\b"
+                },
+                {
+                    "name": "keyword.operator.delay.swimlanes",
+                    "match": "\\.\\.\\."
+                }
+            ]
+        },
+        "messages": {
+            "patterns": [
+                {
+                    "name": "entity.name.function.message.swimlanes",
+                    "match": "([A-Za-z_][A-Za-z0-9_]*)?\\s*(->|<->|->>|<--|=>|-x)\\s*([A-Za-z_][A-Za-z0-9_]*)?\\s*:"
+                }
+            ]
+        },
+        "notes": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.note.swimlanes",
+                    "begin": "note\\s*([A-Za-z_][A-Za-z0-9_]*)?\\s*(,\\s*[A-Za-z_][A-Za-z0-9_]*)?\\s*:",
+                    "end": "(?=^\\S)"
+                }
+            ]
+        },
+        "icons": {
+            "patterns": [
+                {
+                    "name": "entity.name.tag.icon.swimlanes",
+                    "match": "\\{[a-z]+-[a-z-]+\\s*[a-z-]*\\}"
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                {
+                    "name": "markup.bold.swimlanes",
+                    "match": "\\*\\*[^\\*]+\\*\\*"
+                },
+                {
+                    "name": "markup.italic.swimlanes",
+                    "match": "\\*[^\\*]+\\*"
+                },
+                {
+                    "name": "markup.strikethrough.swimlanes",
+                    "match": "~~[^~]+~~"
+                },
+                {
+                    "name": "markup.inline.raw.swimlanes",
+                    "match": "`[^`]+`"
+                }
+            ]
+        }
+    },
+    "scopeName": "source.swimlanes"
+}

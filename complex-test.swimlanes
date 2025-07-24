@@ -1,0 +1,150 @@
+order: Client, API, Auth, Users, DB, Email, Cache
+title: Complex E-commerce Authentication & User Management Flow
+
+autonumber
+
+Client -> API: POST /api/login
+note Client: User enters credentials
+
+API -> Auth: Validate login credentials
+Auth -> DB: SELECT user WHERE email = ?
+
+if: User exists
+    DB -> Auth: User record found
+    Auth -> Cache: Check failed attempts
+    
+    if: Too many failed attempts
+        Cache -> Auth: Account temporarily locked
+        Auth -> API: 429 Too Many Requests
+        API -> Client: Account locked, try again later
+        
+    else: Login attempts OK
+        Auth -> DB: Verify password hash
+        
+        if: Password correct
+            DB -> Auth: Authentication successful
+            Auth -> Cache: Reset failed attempts
+            Auth -> Cache: Store session token
+            
+            group: Generate JWT Token
+                Auth -> Auth: Create JWT payload
+                Auth -> Auth: Sign with private key
+            end
+            
+            Auth -> API: 200 OK + JWT token
+            API -> Client: Welcome! {fas-check-circle}
+            
+            _: **Post-Login Actions**
+            
+            Client -> API: GET /api/profile
+            API -> Users: Fetch user profile
+            Users -> Cache: Check profile cache
+            
+            if: Cache hit
+                Cache -> Users: Cached profile data
+            else: Cache miss
+                Users -> DB: SELECT profile data
+                DB -> Users: Profile information
+                Users -> Cache: Store in cache (TTL: 1h)
+            end
+            
+            Users -> API: Profile data
+            API -> Client: User profile {fas-user}
+            
+            Users -> Email: Send login notification
+            Email -> Email: Queue welcome email
+            
+        else: Password incorrect
+            DB -> Auth: Authentication failed
+            Auth -> Cache: Increment failed attempts
+            Auth -> API: 401 Unauthorized
+            API -> Client: Invalid credentials {fas-times-circle}
+        end
+    end
+    
+else: User not found
+    DB -> Auth: No user record
+    Auth -> API: 401 Unauthorized
+    API -> Client: Invalid credentials
+end
+
+--: **Optional: Password Reset Flow**
+
+Client -> API: POST /api/forgot-password
+API -> Auth: Initiate password reset
+Auth -> DB: Verify email exists
+
+if: Email found
+    DB -> Auth: User confirmed
+    Auth -> Auth: Generate reset token
+    Auth -> Cache: Store reset token (TTL: 15min)
+    Auth -> Email: Send reset email
+    Email -> Client: Password reset link {fas-envelope}
+    
+    Client -> API: GET /reset?token=xyz
+    API -> Auth: Validate reset token
+    Auth -> Cache: Check token validity
+    
+    if: Token valid
+        Cache -> Auth: Token confirmed
+        Auth -> API: Show reset form
+        API -> Client: Password reset form
+        
+        Client -> API: POST /api/reset-password
+        API -> Auth: Update password
+        Auth -> DB: UPDATE password hash
+        DB -> Auth: Password updated
+        Auth -> Cache: Invalidate all user sessions
+        Auth -> API: 200 OK
+        API -> Client: Password reset successful
+        
+    else: Token expired/invalid
+        Cache -> Auth: Token not found
+        Auth -> API: 400 Bad Request
+        API -> Client: Invalid or expired token
+    end
+    
+else: Email not found
+    DB -> Auth: Email not registered
+    note Auth: Security: Don't reveal if email exists
+    Auth -> API: 200 OK (fake success)
+    API -> Client: If email exists, reset link sent
+end
+
+=: **Admin Operations**
+
+if: User is admin
+    Client -> API: GET /api/admin/users
+    API -> Users: List all users (paginated)
+    Users -> DB: SELECT users LIMIT 50 OFFSET ?
+    DB -> Users: User list
+    Users -> API: Paginated user data
+    API -> Client: Admin dashboard {fas-users-cog}
+    
+    Client -> API: POST /api/admin/users/123/suspend
+    API -> Users: Suspend user account
+    Users -> DB: UPDATE user SET status = 'suspended'
+    Users -> Cache: Invalidate user cache
+    Users -> Email: Notify user of suspension
+    DB -> Users: User suspended
+    Users -> API: 200 OK
+    API -> Client: User suspended successfully
+end
+
+note DB: **Performance Notes:**
+- Database queries use prepared statements
+- Sensitive operations are logged for audit
+- Connection pooling enabled (max: 100 connections)
+
+note Cache: **Cache Strategy:**
+- Redis cluster for high availability
+- Session TTL: 24 hours
+- Profile cache TTL: 1 hour
+- Failed attempt tracking: 15 minutes
+
+note Email: **Email Service:**
+- Async processing via message queue
+- Rate limiting: 100 emails/hour per user
+- Templates support i18n (EN, ES, FR)
+
+_: **End of Complex Flow** {fas-flag-checkered}

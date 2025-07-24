@@ -1,0 +1,9 @@
+order: User, Database, System
+title: Simple Authentication Flow
+
+User -> System: Login request
+System -> Database: Validate credentials
+Database -> System: User authenticated
+System -> User: Welcome message
+
+note: Basic sequence diagram using swimlanes.io syntax
