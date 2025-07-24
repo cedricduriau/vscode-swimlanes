@@ -1,7 +1,7 @@
 {
-  "name": "swimlanes",
-  "displayName": "Swimlanes",
-  "description": "A VS Code extension for creating and managing swimlane diagrams",
+  "name": "swimlanes-interactive-preview",
+  "displayName": "Swimlanes Interactive Preview",
+  "description": "Swimlanes support for Visual Studio Code.",
   "version": "0.0.1",
   "publisher": "cedricduriau",
   "icon": "images/icon-128.png",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/example/swimlanes-vscode"
+    "url": "https://github.com/cedricduriau/vscode-swimlanes"
   },
   "categories": [
     "Visualization",
@@ -73,7 +73,7 @@
       }
     ],
     "configuration": {
-      "title": "Swimlanes",
+      "title": "Swimlanes Interactive Preview",
       "properties": {
         "swimlanes.debug.dumpHtml": {
           "type": "boolean",

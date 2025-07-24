@@ -1,6 +1,6 @@
-# Swimlanes VS Code Extension
+# Swimlanes Interactive Preview
 
-A VS Code extension for creating and previewing sequence diagrams using the **[swimlanes.io](https://swimlanes.io)** syntax and renderer.
+A Visual Studio Code extension for creating and previewing sequence diagrams using the **[swimlanes.io](https://swimlanes.io)** syntax and renderer.
 
 ## Features
 
